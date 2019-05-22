@@ -9,8 +9,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const animals = ['cat', 'dog', 'pokemon'];
-
 // Setup the database
 const db = new Database();
 db.addCollection('cats', [
@@ -18,15 +16,17 @@ db.addCollection('cats', [
   { name: 'Aslan', color: 'Gold', age: 11 },
   { name: 'Kitty', color: 'Grey', age: 1 },
 ]);
-
-
 db.addCollection('dogs', []);
 db.addCollection('pokemons', []);
 
-for (let i = 0; i < animals.length; i += 1) {
-  new Animal(app, db).getAnimals(animals[i]);
-  new Animal(app, db).getAnimalById(animals[i]);
-  new Animal(app, db).postAnimal(animals[i]);
+const dbCollection = db.collections;
+
+for (let i = 0; i < dbCollection.length; i += 1) {
+  const animal = dbCollection[i].substr(0, dbCollection[i].length - 1);
+  new Animal(app, db).postAnimal(animal);
+  new Animal(app, db).getAnimals(animal);
+  new Animal(app, db).searchAnimal(animal);
+  new Animal(app, db).getAnimalById(animal);
 }
 
 // Start server
