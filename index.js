@@ -30,8 +30,6 @@ for (let i = 0; i < animals.length; i += 1) {
 }
 
 // Start server
-
-// Start server
 app.listen(PORT, () => {
   console.log(`The server is listening on port ${PORT}`);
 });
