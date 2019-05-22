@@ -20,16 +20,13 @@ db.addCollection('dogs', []);
 db.addCollection('pokemons', []);
 
 const dbCollection = db.collections;
-// let animals = [];
-// for (let i = 0; i < dbCollection.length; i += 1) {
-//   animals.push(dbCollection[i].substr());
-// }
 
 for (let i = 0; i < dbCollection.length; i += 1) {
   const animal = dbCollection[i].substr(0, dbCollection[i].length - 1);
   new Animal(app, db).postAnimal(animal);
   new Animal(app, db).getAnimals(animal);
   new Animal(app, db).searchAnimal(animal);
+  new Animal(app, db).getAnimalById(animal);
 }
 
 // Start server
