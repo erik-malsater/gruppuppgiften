@@ -8,6 +8,11 @@ const PORT = 3000;
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 // Setup the database
 const db = new Database();
@@ -19,10 +24,8 @@ db.addCollection('cats', [
 db.addCollection('dogs', []);
 db.addCollection('pokemons', []);
 
-const dbCollection = db.collections;
-
-for (let i = 0; i < dbCollection.length; i += 1) {
-  const animal = dbCollection[i].substr(0, dbCollection[i].length - 1);
+for (let i = 0; i < db.collections.length; i += 1) {
+  const animal = db.collections[i].substr(0, db.collections[i].length - 1);
   new Animal(app, db).postAnimal(animal);
   new Animal(app, db).getAnimals(animal);
   new Animal(app, db).searchAnimal(animal);
